@@ -1,0 +1,158 @@
+{
+    "data": [
+        {
+            "BMC": "carbide",
+            "description": "Drill, D: 1.75, FL: 2, CEL: 10.5",
+            "expressions": {
+                "holder_description": "'ISO20 ER16'",
+                "holder_productId": "'50891'",
+                "holder_productLink": "'https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html'",
+                "holder_vendor": "'Tormach'",
+                "tool_bodyLength": "15 mm",
+                "tool_description": "'Drill, D: 1.75, FL: 2, CEL: 10.5'",
+                "tool_diameter": "(1,4) mm",
+                "tool_fluteLength": "10.5 mm",
+                "tool_material": "'carbide'",
+                "tool_number": "100",
+                "tool_overallLength": "38 mm",
+                "tool_productId": "'B07ZWH7N33'",
+                "tool_productLink": "'https://www.amazon.com/uxcell-Tungsten-Carbide-Jewelry-Engraving/dp/B07ZWH7N33/?th=1'",
+                "tool_shaftDiameter": "3.175 mm",
+                "tool_shoulderLength": "15 mm",
+                "tool_vendor": "'uxcell'"
+            },
+            "geometry": {
+                "CSP": false,
+                "DC": 1.4,
+                "HAND": true,
+                "LB": 15,
+                "LCF": 10.5,
+                "NOF": 2,
+                "OAL": 38,
+                "SFDM": 3.175,
+                "SIG": 118,
+                "assemblyGaugeLength": 70,
+                "shoulder-length": 15
+            },
+            "guid": "df1b1bcf-2a6e-48c3-ae4f-383a733d6d3e",
+            "holder": {
+                "description": "ISO20 ER16",
+                "expressions": {
+                    "tool_description": "'ISO20 ER16'",
+                    "tool_holderGaugeLength": "segment_1_height + segment_2_height + segment_3_height",
+                    "tool_productId": "'50891'",
+                    "tool_productLink": "'https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html'",
+                    "tool_vendor": "'Tormach'"
+                },
+                "gaugeLength": 55,
+                "guid": "7d08fb9e-62b6-4b20-bcef-e55107cb9de9",
+                "last_modified": 1769705501200,
+                "product-id": "50891",
+                "product-link": "https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html",
+                "reference_guid": "7d08fb9e-62b6-4b20-bcef-e55107cb9de9",
+                "segments": [
+                    {
+                        "height": 19,
+                        "lower-diameter": 28,
+                        "upper-diameter": 28
+                    },
+                    {
+                        "height": 8.5,
+                        "lower-diameter": 24,
+                        "upper-diameter": 24
+                    },
+                    {
+                        "height": 27.5,
+                        "lower-diameter": 28,
+                        "upper-diameter": 28
+                    }
+                ],
+                "type": "holder",
+                "unit": "millimeters",
+                "vendor": "Tormach"
+            },
+            "last_modified": 1769997819158,
+            "post-process": {
+                "break-control": false,
+                "comment": "",
+                "diameter-offset": 100,
+                "length-offset": 100,
+                "live": true,
+                "manual-tool-change": false,
+                "number": 100,
+                "turret": 0
+            },
+            "product-id": "B07ZWH7N33",
+            "product-link": "https://www.amazon.com/uxcell-Tungsten-Carbide-Jewelry-Engraving/dp/B07ZWH7N33/?th=1",
+            "reference_guid": "df1b1bcf-2a6e-48c3-ae4f-383a733d6d3e",
+            "start-values": {
+                "presets": [
+                    {
+                        "guid": "da445424-eaa1-4f0a-beb7-a82cc969e637",
+                        "material": {
+                            "category": "all",
+                            "query": "",
+                            "use-hardness": false
+                        },
+                        "n": 5000,
+                        "name": "Default preset",
+                        "tool-coolant": "flood",
+                        "use-feed-per-revolution": false,
+                        "v_c": 21.99114857512855,
+                        "v_f_plunge": 1000,
+                        "v_f_retract": 1000
+                    },
+                    {
+                        "guid": "3b1f87f5-9e45-4530-98de-06e87daa61d6",
+                        "material": {
+                            "category": "all",
+                            "query": "",
+                            "use-hardness": false
+                        },
+                        "n": 5000,
+                        "name": "MDF",
+                        "tool-coolant": "flood",
+                        "use-feed-per-revolution": false,
+                        "v_c": 21.99114857512855,
+                        "v_f_plunge": 1000,
+                        "v_f_retract": 1000
+                    },
+                    {
+                        "guid": "c59fc902-9f36-4229-9d50-74cd0b0f6eb3",
+                        "material": {
+                            "category": "all",
+                            "query": "",
+                            "use-hardness": false
+                        },
+                        "n": 5000,
+                        "name": "G10",
+                        "tool-coolant": "flood",
+                        "use-feed-per-revolution": false,
+                        "v_c": 21.99114857512855,
+                        "v_f_plunge": 1000,
+                        "v_f_retract": 1000
+                    },
+                    {
+                        "guid": "c6eaf9ab-94e0-41fc-b07d-0676dc3aec33",
+                        "material": {
+                            "category": "all",
+                            "query": "",
+                            "use-hardness": false
+                        },
+                        "n": 5000,
+                        "name": "Delrin",
+                        "tool-coolant": "flood",
+                        "use-feed-per-revolution": false,
+                        "v_c": 21.99114857512855,
+                        "v_f_plunge": 1000,
+                        "v_f_retract": 1000
+                    }
+                ]
+            },
+            "type": "drill",
+            "unit": "millimeters",
+            "vendor": "uxcell"
+        }
+    ],
+    "version": 36
+}

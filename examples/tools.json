@@ -1,0 +1,422 @@
+{
+  "data": [
+    {
+      "description": "Drill, D: 1.7, FL: 2, CEL: 10",
+      "expressions": {
+        "holder_description": "'ISO20 ER16 Collet Chuck'",
+        "holder_productId": "'50891'",
+        "holder_productLink": "'https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html'",
+        "holder_vendor": "'Tormach'",
+        "tool_bodyLength": "10 mm",
+        "tool_description": "'Drill, D: 1.7, FL: 2, CEL: 10'",
+        "tool_diameter": "(1,7) mm",
+        "tool_fluteLength": "10 mm",
+        "tool_material": "'carbide'",
+        "tool_number": "100",
+        "tool_overallLength": "38 mm",
+        "tool_productId": "'B07ZWF6RRD'",
+        "tool_productLink": "'https://www.amazon.com/uxcell-Tungsten-Carbide-Jewelry-Engraving/dp/B07ZWF6RRD/'",
+        "tool_shaftDiameter": "3.175 mm",
+        "tool_shoulderLength": "10 mm",
+        "tool_vendor": "'uxcell'"
+      },
+      "geometry": {
+        "DC": 1.7,
+        "CSP": false,
+        "HAND": true,
+        "NOF": 2,
+        "LCF": 10,
+        "OAL": 38,
+        "SFDM": 3.175,
+        "SIG": 118,
+        "LB": 12,
+        "shoulder-length": 10,
+        "assemblyGaugeLength": 67
+      },
+      "guid": "ddb4daa7-35a5-4aff-a803-0a3227a23b3c",
+      "last_modified": 1769997472738,
+      "post-process": {
+        "break-control": false,
+        "comment": "",
+        "diameter-offset": 100,
+        "length-offset": 100,
+        "live": true,
+        "manual-tool-change": false,
+        "number": 100,
+        "turret": 0
+      },
+      "reference_guid": "ddb4daa7-35a5-4aff-a803-0a3227a23b3c",
+      "start-values": {
+        "presets": [
+          {
+            "guid": "9a9984f6-93e9-41d2-b899-be5e6bc3969e",
+            "material": {
+              "category": "all",
+              "query": "",
+              "use-hardness": false
+            },
+            "n": 24000,
+            "name": "Delrin (POM)",
+            "tool-coolant": "disabled",
+            "use-feed-per-revolution": false,
+            "v_c": 128.2,
+            "v_f_plunge": 900,
+            "v_f_retract": 1800
+          },
+          {
+            "guid": "1ed40776-61ed-4dff-8777-58047e893284",
+            "material": {
+              "category": "all",
+              "query": "",
+              "use-hardness": false
+            },
+            "n": 24000,
+            "name": "MDF",
+            "tool-coolant": "disabled",
+            "use-feed-per-revolution": false,
+            "v_c": 128.2,
+            "v_f_plunge": 840,
+            "v_f_retract": 1680
+          },
+          {
+            "guid": "4d00c368-fd61-4ca2-8fdf-1181007f49b6",
+            "material": {
+              "category": "all",
+              "query": "",
+              "use-hardness": false
+            },
+            "n": 23592,
+            "name": "G10/FR4",
+            "tool-coolant": "disabled",
+            "use-feed-per-revolution": false,
+            "v_c": 126,
+            "v_f_plunge": 413,
+            "v_f_retract": 826
+          }
+        ]
+      },
+      "type": "drill",
+      "unit": "millimeters",
+      "vendor": "uxcell",
+      "product-id": "B07ZWF6RRD",
+      "product-link": "https://www.amazon.com/uxcell-Tungsten-Carbide-Jewelry-Engraving/dp/B07ZWF6RRD/",
+      "BMC": "carbide",
+      "GRADE": "uncoated",
+      "holder": {
+        "description": "ISO20 ER16 Collet Chuck",
+        "expressions": {
+          "tool_description": "'ISO20 ER16 Collet Chuck'",
+          "tool_holderGaugeLength": "segment_1_height + segment_2_height + segment_3_height",
+          "tool_productId": "'50891'",
+          "tool_productLink": "'https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html'",
+          "tool_vendor": "'Tormach'"
+        },
+        "gaugeLength": 55,
+        "guid": "24cbf10e-9acf-44d6-9f3c-36c1dec82e72",
+        "last_modified": 1769997472738,
+        "product-id": "50891",
+        "product-link": "https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html",
+        "reference_guid": "24cbf10e-9acf-44d6-9f3c-36c1dec82e72",
+        "segments": [
+          {
+            "height": 19,
+            "lower-diameter": 28,
+            "upper-diameter": 28
+          },
+          {
+            "height": 8.5,
+            "lower-diameter": 24,
+            "upper-diameter": 24
+          },
+          {
+            "height": 27.5,
+            "lower-diameter": 28,
+            "upper-diameter": 28
+          }
+        ],
+        "type": "holder",
+        "unit": "millimeters",
+        "vendor": "Tormach"
+      }
+    },
+    {
+      "description": "Drill, D: 1.75, FL: 2, CEL: 12",
+      "expressions": {
+        "holder_description": "'ISO20 ER16 Collet Chuck'",
+        "holder_productId": "'50891'",
+        "holder_productLink": "'https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html'",
+        "holder_vendor": "'Tormach'",
+        "tool_bodyLength": "12 mm",
+        "tool_description": "'Drill, D: 1.75, FL: 2, CEL: 12'",
+        "tool_diameter": "1.75 mm",
+        "tool_fluteLength": "12 mm",
+        "tool_material": "'carbide'",
+        "tool_number": "101",
+        "tool_overallLength": "38 mm",
+        "tool_productId": "'B0DP4Y2K3Y'",
+        "tool_productLink": "'https://www.amazon.com/uxcell-Tungsten-Carbide-Jewelry-Engraving/dp/B0DP4Y2K3Y/?th=1'",
+        "tool_shaftDiameter": "3.175 mm",
+        "tool_shoulderLength": "12 mm",
+        "tool_vendor": "'uxcell'"
+      },
+      "geometry": {
+        "DC": 1.75,
+        "CSP": false,
+        "HAND": true,
+        "NOF": 2,
+        "LCF": 12,
+        "OAL": 38,
+        "SFDM": 3.175,
+        "SIG": 118,
+        "LB": 14.4,
+        "shoulder-length": 12,
+        "assemblyGaugeLength": 69.4
+      },
+      "guid": "38d84b78-c7cb-48f0-8916-9f641371d3c8",
+      "last_modified": 1769997472738,
+      "post-process": {
+        "break-control": false,
+        "comment": "",
+        "diameter-offset": 101,
+        "length-offset": 101,
+        "live": true,
+        "manual-tool-change": false,
+        "number": 101,
+        "turret": 0
+      },
+      "reference_guid": "38d84b78-c7cb-48f0-8916-9f641371d3c8",
+      "start-values": {
+        "presets": [
+          {
+            "guid": "8ba4e1f8-33d6-4791-b76b-3df7b6883c37",
+            "material": {
+              "category": "all",
+              "query": "",
+              "use-hardness": false
+            },
+            "n": 24000,
+            "name": "Delrin (POM)",
+            "tool-coolant": "disabled",
+            "use-feed-per-revolution": false,
+            "v_c": 131.9,
+            "v_f_plunge": 900,
+            "v_f_retract": 1800
+          },
+          {
+            "guid": "4b9172eb-cd4c-4bda-a1fd-c8908286f39d",
+            "material": {
+              "category": "all",
+              "query": "",
+              "use-hardness": false
+            },
+            "n": 24000,
+            "name": "MDF",
+            "tool-coolant": "disabled",
+            "use-feed-per-revolution": false,
+            "v_c": 131.9,
+            "v_f_plunge": 840,
+            "v_f_retract": 1680
+          },
+          {
+            "guid": "51c7a0c5-7c9f-4d7c-be02-282fee201cfa",
+            "material": {
+              "category": "all",
+              "query": "",
+              "use-hardness": false
+            },
+            "n": 22918,
+            "name": "G10/FR4",
+            "tool-coolant": "disabled",
+            "use-feed-per-revolution": false,
+            "v_c": 126,
+            "v_f_plunge": 401,
+            "v_f_retract": 802
+          }
+        ]
+      },
+      "type": "drill",
+      "unit": "millimeters",
+      "vendor": "uxcell",
+      "product-id": "B0DP4Y2K3Y",
+      "product-link": "https://www.amazon.com/uxcell-Tungsten-Carbide-Jewelry-Engraving/dp/B0DP4Y2K3Y/?th=1",
+      "BMC": "carbide",
+      "GRADE": "uncoated",
+      "holder": {
+        "description": "ISO20 ER16 Collet Chuck",
+        "expressions": {
+          "tool_description": "'ISO20 ER16 Collet Chuck'",
+          "tool_holderGaugeLength": "segment_1_height + segment_2_height + segment_3_height",
+          "tool_productId": "'50891'",
+          "tool_productLink": "'https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html'",
+          "tool_vendor": "'Tormach'"
+        },
+        "gaugeLength": 55,
+        "guid": "d2542e23-e10f-484e-b079-3be743fb73ab",
+        "last_modified": 1769997472738,
+        "product-id": "50891",
+        "product-link": "https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html",
+        "reference_guid": "d2542e23-e10f-484e-b079-3be743fb73ab",
+        "segments": [
+          {
+            "height": 19,
+            "lower-diameter": 28,
+            "upper-diameter": 28
+          },
+          {
+            "height": 8.5,
+            "lower-diameter": 24,
+            "upper-diameter": 24
+          },
+          {
+            "height": 27.5,
+            "lower-diameter": 28,
+            "upper-diameter": 28
+          }
+        ],
+        "type": "holder",
+        "unit": "millimeters",
+        "vendor": "Tormach"
+      }
+    },
+    {
+      "description": "Drill, D: 1.4, FL: 1, CEL: 10.5",
+      "expressions": {
+        "holder_description": "'ISO20 ER16 Collet Chuck'",
+        "holder_productId": "'50891'",
+        "holder_productLink": "'https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html'",
+        "holder_vendor": "'Tormach'",
+        "tool_bodyLength": "10.5 mm",
+        "tool_description": "'Drill, D: 1.4, FL: 1, CEL: 10.5'",
+        "tool_diameter": "1.4 mm",
+        "tool_fluteLength": "10.5 mm",
+        "tool_material": "'carbide'",
+        "tool_number": "102",
+        "tool_overallLength": "38 mm",
+        "tool_productId": "'B07ZWH7N33'",
+        "tool_productLink": "'https://www.amazon.com/uxcell-Tungsten-Carbide-Jewelry-Engraving/dp/B07ZWH7N33/?th=1'",
+        "tool_shaftDiameter": "3 mm",
+        "tool_shoulderLength": "10.5 mm",
+        "tool_vendor": "'uxcell'"
+      },
+      "geometry": {
+        "DC": 1.4,
+        "CSP": false,
+        "HAND": true,
+        "NOF": 1,
+        "LCF": 10.5,
+        "OAL": 38,
+        "SFDM": 3,
+        "SIG": 135,
+        "LB": 12.6,
+        "shoulder-length": 10.5,
+        "assemblyGaugeLength": 67.6
+      },
+      "guid": "725d5666-788b-4078-9e7b-f9704368540c",
+      "last_modified": 1769997472738,
+      "post-process": {
+        "break-control": false,
+        "comment": "",
+        "diameter-offset": 102,
+        "length-offset": 102,
+        "live": false,
+        "manual-tool-change": false,
+        "number": 102,
+        "turret": 0
+      },
+      "reference_guid": "725d5666-788b-4078-9e7b-f9704368540c",
+      "start-values": {
+        "presets": [
+          {
+            "guid": "677d3424-2b7b-4ad5-beac-05d28b182c16",
+            "material": {
+              "category": "all",
+              "query": "",
+              "use-hardness": false
+            },
+            "n": 24000,
+            "name": "Delrin (POM)",
+            "tool-coolant": "disabled",
+            "use-feed-per-revolution": false,
+            "v_c": 105.6,
+            "v_f_plunge": 450,
+            "v_f_retract": 900
+          },
+          {
+            "guid": "d41a8ac9-196e-486d-9d03-e2182f8b658c",
+            "material": {
+              "category": "all",
+              "query": "",
+              "use-hardness": false
+            },
+            "n": 24000,
+            "name": "MDF",
+            "tool-coolant": "disabled",
+            "use-feed-per-revolution": false,
+            "v_c": 105.6,
+            "v_f_plunge": 420,
+            "v_f_retract": 840
+          },
+          {
+            "guid": "690b3e57-e121-4740-84af-24f3b475fb53",
+            "material": {
+              "category": "all",
+              "query": "",
+              "use-hardness": false
+            },
+            "n": 24000,
+            "name": "G10/FR4",
+            "tool-coolant": "disabled",
+            "use-feed-per-revolution": false,
+            "v_c": 105.6,
+            "v_f_plunge": 210,
+            "v_f_retract": 420
+          }
+        ]
+      },
+      "type": "drill",
+      "unit": "millimeters",
+      "vendor": "uxcell",
+      "product-id": "B07ZWH7N33",
+      "product-link": "https://www.amazon.com/uxcell-Tungsten-Carbide-Jewelry-Engraving/dp/B07ZWH7N33/?th=1",
+      "BMC": "carbide",
+      "GRADE": "uncoated",
+      "holder": {
+        "description": "ISO20 ER16 Collet Chuck",
+        "expressions": {
+          "tool_description": "'ISO20 ER16 Collet Chuck'",
+          "tool_holderGaugeLength": "segment_1_height + segment_2_height + segment_3_height",
+          "tool_productId": "'50891'",
+          "tool_productLink": "'https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html'",
+          "tool_vendor": "'Tormach'"
+        },
+        "gaugeLength": 55,
+        "guid": "b0f04c30-7a1d-47eb-8e1f-cd592e0ffa7d",
+        "last_modified": 1769997472738,
+        "product-id": "50891",
+        "product-link": "https://tormach.com/iso20-tool-holder-er20a-30mm-gauge-length-50891.html",
+        "reference_guid": "b0f04c30-7a1d-47eb-8e1f-cd592e0ffa7d",
+        "segments": [
+          {
+            "height": 19,
+            "lower-diameter": 28,
+            "upper-diameter": 28
+          },
+          {
+            "height": 8.5,
+            "lower-diameter": 24,
+            "upper-diameter": 24
+          },
+          {
+            "height": 27.5,
+            "lower-diameter": 28,
+            "upper-diameter": 28
+          }
+        ],
+        "type": "holder",
+        "unit": "millimeters",
+        "vendor": "Tormach"
+      }
+    }
+  ],
+  "version": 36
+}

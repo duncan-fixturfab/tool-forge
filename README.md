@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tool Forge
+
+Web application for generating Fusion360 CNC tool libraries with AI-powered tool extraction and optimized feeds and speeds.
+
+**Domain**: tools.fixturfab.com
+
+## Features
+
+- **AI-Powered Tool Extraction**: Extract tool geometry from vendor URLs, PDFs, or text using Claude AI
+- **Machine-Specific Presets**: Get optimized feeds and speeds for your CNC machine
+- **Fusion360 Export**: Download `.tools` files ready for direct import
+- **Material Library**: Pre-configured cutting parameters for common materials
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 + TypeScript + Tailwind CSS + shadcn/ui
+- **Backend**: Next.js API Routes + Supabase PostgreSQL
+- **AI**: Anthropic Claude SDK for tool data extraction
+- **Auth**: Supabase Auth
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+
+- npm
+- Supabase account
+- Anthropic API key
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-org/tool-forge.git
+cd tool-forge
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Copy environment variables:
+```bash
+cp .env.local.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Configure environment variables in `.env.local`:
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+ANTHROPIC_API_KEY=your_anthropic_api_key
+```
 
-## Learn More
+5. Set up Supabase database:
+   - Create a new Supabase project
+   - Run the migrations in `supabase/migrations/` in order
+   - The seed data includes common CNC machines and materials
 
-To learn more about Next.js, take a look at the following resources:
+6. Run the development server:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+7. Open [http://localhost:3000](http://localhost:3000)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+src/
+├── app/                          # Next.js App Router pages
+│   ├── (auth)/                   # Auth pages (login, signup)
+│   ├── (dashboard)/              # Protected dashboard pages
+│   ├── api/                      # API routes
+│   │   ├── tools/parse/          # Tool extraction endpoints
+│   │   └── libraries/            # Library export endpoints
+│   └── auth/callback/            # Supabase auth callback
+├── components/
+│   ├── auth/                     # Auth components
+│   ├── machines/                 # Machine selector components
+│   ├── materials/                # Material selector components
+│   ├── tools/                    # Tool input/preview components
+│   ├── library/                  # Library builder wizard
+│   └── ui/                       # shadcn/ui components
+├── lib/
+│   ├── agents/                   # Claude AI tool parser
+│   ├── calculators/              # Feed/speed calculations
+│   ├── fusion360/                # Fusion360 export generator
+│   └── supabase/                 # Supabase client utilities
+├── types/                        # TypeScript type definitions
+└── __tests__/                    # Jest tests
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Database Schema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The application uses the following main tables:
+
+- `machines`: CNC machine specifications (spindle RPM, power, work envelope)
+- `materials`: Material types with cutting properties
+- `machine_material_presets`: Speed/feed presets per machine-material combination
+- `tools`: User's extracted tools with geometry
+- `tool_libraries`: Named collections of tools
+- `library_tools`: Junction table with cutting data per material
+
+## API Endpoints
+
+### Tool Parsing
+
+- `POST /api/tools/parse/url` - Extract tool from vendor URL
+- `POST /api/tools/parse/text` - Extract tool from text description
+- `POST /api/tools/parse/pdf` - Extract tool from PDF datasheet
+
+### Library Export
+
+- `GET /api/libraries/[id]/download` - Download `.tools` file
+
+## Fusion360 Import
+
+1. Open Fusion360
+2. Go to **Manufacture** workspace
+3. Click **Manage** → **Tool Library**
+4. Click the **Import** button (folder icon)
+5. Select the downloaded `.tools` file
+
+## Testing
+
+```bash
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+## Deployment
+
+The application is designed to be deployed on Vercel:
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+```
+
+## License
+
+MIT
