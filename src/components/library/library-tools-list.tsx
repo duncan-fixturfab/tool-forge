@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import { Fragment, useState, useCallback, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,7 @@ import { PostProcessForm } from "./post-process-form";
 import { HolderSelector } from "@/components/holders/holder-selector";
 import { AddToolButton } from "./add-tool-button";
 import { ToolType, PostProcessSettings, Tool } from "@/types/database";
+import { TOOL_CATEGORIES, ToolCategory } from "@/lib/tool-categories";
 import {
   Table,
   TableBody,
@@ -31,6 +32,13 @@ const TOOL_TYPE_LABELS: Record<ToolType, string> = {
   tap: "Tap",
   engraving_tool: "Engraving Tool",
 };
+
+function getCategoryForToolNumber(toolNumber: number): ToolCategory | null {
+  for (const cat of Object.values(TOOL_CATEGORIES)) {
+    if (toolNumber >= cat.min && toolNumber <= cat.max) return cat;
+  }
+  return null;
+}
 
 interface LibraryToolData {
   id: string;
@@ -429,6 +437,24 @@ export function LibraryToolsList({
     });
   }, [libraryTools, sortColumn, sortDirection]);
 
+  // Group tools by category (sorted by tool_number ascending) for list view
+  // and default table view (no active sort column)
+  const categoryGroups = useMemo(() => {
+    const sorted = [...libraryTools].sort((a, b) => a.tool_number - b.tool_number);
+    const groups = new Map<string, { category: ToolCategory | null; tools: LibraryToolData[] }>();
+
+    for (const tool of sorted) {
+      const category = getCategoryForToolNumber(tool.tool_number);
+      const key = category?.key ?? "__other__";
+      if (!groups.has(key)) {
+        groups.set(key, { category, tools: [] });
+      }
+      groups.get(key)!.tools.push(tool);
+    }
+
+    return [...groups.values()];
+  }, [libraryTools]);
+
   if (libraryTools.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
@@ -466,14 +492,34 @@ export function LibraryToolsList({
       </div>
 
       {view === "list" ? (
-        <div className="space-y-3">
-          {libraryTools.map((libraryTool) => (
-            <LibraryToolRow
-              key={libraryTool.id}
-              libraryTool={libraryTool}
-              machineId={machineId}
-              onRemove={() => handleRemove(libraryTool.id)}
-            />
+        <div className="space-y-6">
+          {categoryGroups.map(({ category, tools: groupTools }) => (
+            <div key={category?.key ?? "__other__"}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-sm font-semibold text-foreground">
+                  {category?.name ?? "Other"}
+                </span>
+                {category && (
+                  <span className="text-xs font-mono text-muted-foreground">
+                    T{category.min}–T{category.max}
+                  </span>
+                )}
+                <div className="flex-1 h-px bg-border" />
+                <span className="text-xs text-muted-foreground">
+                  {groupTools.length} {groupTools.length === 1 ? "tool" : "tools"}
+                </span>
+              </div>
+              <div className="space-y-3">
+                {groupTools.map((libraryTool) => (
+                  <LibraryToolRow
+                    key={libraryTool.id}
+                    libraryTool={libraryTool}
+                    machineId={machineId}
+                    onRemove={() => handleRemove(libraryTool.id)}
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       ) : (
@@ -546,14 +592,50 @@ export function LibraryToolsList({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sortedTools.map((libraryTool) => (
-              <LibraryToolTableRow
-                key={libraryTool.id}
-                libraryTool={libraryTool}
-                showShankDiameter={hasShankDiameter}
-                onRemove={() => handleRemove(libraryTool.id)}
-              />
-            ))}
+            {sortColumn === null ? (
+              categoryGroups.map(({ category, tools: groupTools }) => (
+                <Fragment key={category?.key ?? "__other__"}>
+                  <TableRow className="bg-muted/40 hover:bg-muted/40">
+                    <TableCell
+                      colSpan={hasShankDiameter ? 8 : 7}
+                      className="py-2 px-4"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-semibold text-foreground uppercase tracking-wider">
+                          {category?.name ?? "Other"}
+                        </span>
+                        {category && (
+                          <span className="text-xs font-mono text-muted-foreground">
+                            T{category.min}–T{category.max}
+                          </span>
+                        )}
+                        <span className="text-xs text-muted-foreground ml-auto">
+                          {groupTools.length}{" "}
+                          {groupTools.length === 1 ? "tool" : "tools"}
+                        </span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                  {groupTools.map((libraryTool) => (
+                    <LibraryToolTableRow
+                      key={libraryTool.id}
+                      libraryTool={libraryTool}
+                      showShankDiameter={hasShankDiameter}
+                      onRemove={() => handleRemove(libraryTool.id)}
+                    />
+                  ))}
+                </Fragment>
+              ))
+            ) : (
+              sortedTools.map((libraryTool) => (
+                <LibraryToolTableRow
+                  key={libraryTool.id}
+                  libraryTool={libraryTool}
+                  showShankDiameter={hasShankDiameter}
+                  onRemove={() => handleRemove(libraryTool.id)}
+                />
+              ))
+            )}
           </TableBody>
         </Table>
       )}
