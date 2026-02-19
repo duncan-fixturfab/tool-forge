@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Loader2, List, Table2 } from "lucide-react";
+import { Trash2, Loader2, List, Table2, ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import { PostProcessForm } from "./post-process-form";
 import { HolderSelector } from "@/components/holders/holder-selector";
 import { AddToolButton } from "./add-tool-button";
@@ -50,6 +50,53 @@ interface LibraryToolsListProps {
   libraryId: string;
   libraryTools: LibraryToolData[];
   machineId?: string;
+}
+
+type SortColumn =
+  | "tool_number"
+  | "name"
+  | "type"
+  | "vendor"
+  | "diameter"
+  | "flutes"
+  | "shank";
+type SortDirection = "asc" | "desc";
+
+function SortableTableHead({
+  column,
+  sortColumn,
+  sortDirection,
+  onSort,
+  className,
+  children,
+}: {
+  column: SortColumn;
+  sortColumn: SortColumn | null;
+  sortDirection: SortDirection;
+  onSort: (column: SortColumn) => void;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const isActive = sortColumn === column;
+  const Icon = isActive
+    ? sortDirection === "asc"
+      ? ArrowUp
+      : ArrowDown
+    : ArrowUpDown;
+
+  return (
+    <TableHead
+      className={`cursor-pointer select-none hover:bg-muted/50 ${className ?? ""}`}
+      onClick={() => onSort(column)}
+    >
+      <span className="inline-flex items-center gap-1">
+        {children}
+        <Icon
+          className={`h-3 w-3 ${isActive ? "text-foreground" : "text-muted-foreground/50"}`}
+        />
+      </span>
+    </TableHead>
+  );
 }
 
 function useDebounce<T>(value: T, delay: number): T {
@@ -314,6 +361,8 @@ export function LibraryToolsList({
 }: LibraryToolsListProps) {
   const [libraryTools, setLibraryTools] = useState(initialLibraryTools);
   const [view, setView] = useState<"list" | "table">("list");
+  const [sortColumn, setSortColumn] = useState<SortColumn | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
   // Sync local state when props change (e.g., after router.refresh())
   useEffect(() => {
@@ -323,6 +372,62 @@ export function LibraryToolsList({
   const handleRemove = useCallback((id: string) => {
     setLibraryTools((prev) => prev.filter((lt) => lt.id !== id));
   }, []);
+
+  const handleSort = useCallback((column: SortColumn) => {
+    setSortColumn((prev) => {
+      if (prev === column) {
+        setSortDirection((dir) => (dir === "asc" ? "desc" : "asc"));
+        return column;
+      }
+      setSortDirection("asc");
+      return column;
+    });
+  }, []);
+
+  const sortedTools = useMemo(() => {
+    if (!sortColumn) return libraryTools;
+    return [...libraryTools].sort((a, b) => {
+      let aVal: string | number | null | undefined;
+      let bVal: string | number | null | undefined;
+      switch (sortColumn) {
+        case "tool_number":
+          aVal = a.tool_number;
+          bVal = b.tool_number;
+          break;
+        case "name":
+          aVal = a.tools.name;
+          bVal = b.tools.name;
+          break;
+        case "type":
+          aVal = TOOL_TYPE_LABELS[a.tools.tool_type];
+          bVal = TOOL_TYPE_LABELS[b.tools.tool_type];
+          break;
+        case "vendor":
+          aVal = a.tools.vendor ?? "";
+          bVal = b.tools.vendor ?? "";
+          break;
+        case "diameter":
+          aVal = a.tools.geometry.diameter_mm;
+          bVal = b.tools.geometry.diameter_mm;
+          break;
+        case "flutes":
+          aVal = a.tools.geometry.number_of_flutes;
+          bVal = b.tools.geometry.number_of_flutes;
+          break;
+        case "shank":
+          aVal = a.tools.geometry.shank_diameter_mm ?? -1;
+          bVal = b.tools.geometry.shank_diameter_mm ?? -1;
+          break;
+      }
+      if (aVal == null) aVal = "";
+      if (bVal == null) bVal = "";
+      const cmp =
+        typeof aVal === "number" && typeof bVal === "number"
+          ? aVal - bVal
+          : String(aVal).localeCompare(String(bVal));
+      return sortDirection === "asc" ? cmp : -cmp;
+    });
+  }, [libraryTools, sortColumn, sortDirection]);
 
   if (libraryTools.length === 0) {
     return (
@@ -375,20 +480,73 @@ export function LibraryToolsList({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-16">#</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Vendor</TableHead>
-              <TableHead className="text-right">Diameter</TableHead>
-              <TableHead className="text-right">Flutes</TableHead>
+              <SortableTableHead
+                column="tool_number"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                onSort={handleSort}
+                className="w-16"
+              >
+                #
+              </SortableTableHead>
+              <SortableTableHead
+                column="name"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                onSort={handleSort}
+              >
+                Name
+              </SortableTableHead>
+              <SortableTableHead
+                column="type"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                onSort={handleSort}
+              >
+                Type
+              </SortableTableHead>
+              <SortableTableHead
+                column="vendor"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                onSort={handleSort}
+              >
+                Vendor
+              </SortableTableHead>
+              <SortableTableHead
+                column="diameter"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                onSort={handleSort}
+                className="text-right"
+              >
+                Diameter
+              </SortableTableHead>
+              <SortableTableHead
+                column="flutes"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                onSort={handleSort}
+                className="text-right"
+              >
+                Flutes
+              </SortableTableHead>
               {hasShankDiameter && (
-                <TableHead className="text-right">Shank</TableHead>
+                <SortableTableHead
+                  column="shank"
+                  sortColumn={sortColumn}
+                  sortDirection={sortDirection}
+                  onSort={handleSort}
+                  className="text-right"
+                >
+                  Shank
+                </SortableTableHead>
               )}
               <TableHead className="w-12" />
             </TableRow>
           </TableHeader>
           <TableBody>
-            {libraryTools.map((libraryTool) => (
+            {sortedTools.map((libraryTool) => (
               <LibraryToolTableRow
                 key={libraryTool.id}
                 libraryTool={libraryTool}
