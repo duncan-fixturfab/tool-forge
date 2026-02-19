@@ -15,6 +15,7 @@ import { ToolType, PostProcessSettings } from "@/types/database";
 import { ExportCard } from "@/components/library/export-card";
 import { LibraryToolsList } from "@/components/library/library-tools-list";
 import { MaterialsCard } from "@/components/library/materials-card";
+import { ProductIdSourceCard } from "@/components/library/product-id-source-card";
 import { AddToolButton } from "@/components/library/add-tool-button";
 
 export default async function LibraryDetailPage({
@@ -141,6 +142,12 @@ export default async function LibraryDetailPage({
       <MaterialsCard
         libraryId={id}
         defaultMaterialIds={library.default_material_ids || []}
+      />
+
+      {/* Product ID Source */}
+      <ProductIdSourceCard
+        libraryId={id}
+        productIdSource={(library.product_id_source as "product_id" | "internal_reference") || "product_id"}
       />
 
       {/* Export & Sync */}

@@ -456,6 +456,7 @@ export interface GenerateLibraryInput {
   machine: Machine;
   materials: Material[];
   presets: Map<string, MachineMaterialPreset>; // key = material_id
+  productIdSource?: "product_id" | "internal_reference";
 }
 
 export function generateFusion360Tool(
@@ -465,7 +466,8 @@ export function generateFusion360Tool(
   machine: Machine,
   materials: Material[],
   presets: Map<string, MachineMaterialPreset>,
-  holder?: ToolHolder
+  holder?: ToolHolder,
+  productIdSource: "product_id" | "internal_reference" = "product_id"
 ): Fusion360Tool {
   const fusionPresets: Fusion360Preset[] = [];
 
@@ -533,9 +535,13 @@ export function generateFusion360Tool(
     turret: postProcess?.turret ?? 0,
   };
 
-  // 9. product-id
-  if (tool.product_id) {
-    fusionTool["product-id"] = tool.product_id;
+  // 9. product-id — use the field selected by the library's product_id_source setting
+  const resolvedProductId =
+    productIdSource === "internal_reference"
+      ? tool.internal_reference
+      : tool.product_id;
+  if (resolvedProductId) {
+    fusionTool["product-id"] = resolvedProductId;
   }
 
   // 10. product-link
@@ -579,7 +585,8 @@ export function generateFusion360Library(input: GenerateLibraryInput): Fusion360
       input.machine,
       input.materials,
       input.presets,
-      holder
+      holder,
+      input.productIdSource ?? "product_id"
     );
     library.data.push(fusionTool);
   }

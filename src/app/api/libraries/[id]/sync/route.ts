@@ -165,6 +165,7 @@ export async function POST(
       machine: library.machines,
       materials,
       presets: presetMap,
+      productIdSource: (library.product_id_source as "product_id" | "internal_reference") ?? "product_id",
     });
 
     // Validate library

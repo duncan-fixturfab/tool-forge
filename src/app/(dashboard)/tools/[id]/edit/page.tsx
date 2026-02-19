@@ -49,6 +49,7 @@ export default function EditToolPage() {
         description: tool.description || "",
         vendor: tool.vendor || "",
         product_id: tool.product_id || "",
+        internal_reference: tool.internal_reference || "",
         product_url: tool.product_url || "",
         notes: tool.notes || "",
         // Cutter tab
@@ -90,6 +91,7 @@ export default function EditToolPage() {
           tool_type: formData.tool_type,
           vendor: formData.vendor || null,
           product_id: formData.product_id || null,
+          internal_reference: formData.internal_reference || null,
           product_url: formData.product_url || null,
           coating: formData.coating || null,
           substrate: formData.substrate || null,

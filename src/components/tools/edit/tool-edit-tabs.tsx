@@ -18,6 +18,7 @@ export interface ToolEditFormData {
   description: string;
   vendor: string;
   product_id: string;
+  internal_reference: string;
   product_url: string;
   notes: string;
   // Cutter tab
@@ -66,6 +67,7 @@ export function ToolEditTabs({
           description={formData.description}
           vendor={formData.vendor}
           product_id={formData.product_id}
+          internal_reference={formData.internal_reference}
           product_url={formData.product_url}
           notes={formData.notes}
           onChange={onChange}

@@ -149,6 +149,7 @@ export interface Tool {
   tool_type: ToolType;
   vendor?: string;
   product_id?: string;
+  internal_reference?: string;
   product_url?: string;
   geometry: ToolGeometry;
   extraction_source?: string;
@@ -179,6 +180,7 @@ export interface ToolLibrary {
   last_exported_at?: string;
   export_count: number;
   default_material_ids?: string[];
+  product_id_source?: "product_id" | "internal_reference";
   created_at: string;
   updated_at: string;
 }

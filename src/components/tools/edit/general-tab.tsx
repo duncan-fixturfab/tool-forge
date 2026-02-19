@@ -9,6 +9,7 @@ interface GeneralTabProps {
   description: string;
   vendor: string;
   product_id: string;
+  internal_reference: string;
   product_url: string;
   notes: string;
   onChange: (data: Partial<ToolEditFormData>) => void;
@@ -19,6 +20,7 @@ export function GeneralTab({
   description,
   vendor,
   product_id,
+  internal_reference,
   product_url,
   notes,
   onChange,
@@ -55,6 +57,17 @@ export function GeneralTab({
           value={product_id}
           onChange={(e) => onChange({ product_id: e.target.value })}
           placeholder="SKU or product number"
+          disabled={disabled}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="internal_reference">Internal Reference</Label>
+        <Input
+          id="internal_reference"
+          value={internal_reference}
+          onChange={(e) => onChange({ internal_reference: e.target.value })}
+          placeholder="Internal part number or ERP reference"
           disabled={disabled}
         />
       </div>
