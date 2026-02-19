@@ -452,7 +452,7 @@ export function LibraryToolsList({
       groups.get(key)!.tools.push(tool);
     }
 
-    return [...groups.values()];
+    return Array.from(groups.values());
   }, [libraryTools]);
 
   if (libraryTools.length === 0) {
