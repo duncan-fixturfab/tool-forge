@@ -256,8 +256,11 @@ export async function parseToolFromUrl(url: string): Promise<ExtractionResult> {
   }
 }
 
-export async function parseToolFromText(text: string): Promise<ExtractionResult> {
-  return parseToolFromContent(text, "text");
+export async function parseToolFromText(
+  text: string,
+  sourceUrl?: string
+): Promise<ExtractionResult> {
+  return parseToolFromContent(text, "text", sourceUrl);
 }
 
 export async function parseToolFromPdfContent(

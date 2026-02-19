@@ -5,6 +5,7 @@ import { z } from "zod";
 
 const RequestSchema = z.object({
   text: z.string().min(10).max(50000),
+  product_url: z.string().url().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -31,7 +32,20 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse tool from text
-    const result = await parseToolFromText(parsed.data.text);
+    const result = await parseToolFromText(
+      parsed.data.text,
+      parsed.data.product_url
+    );
+
+    // Use provided product_url as fallback if AI didn't extract one
+    if (
+      result.success &&
+      result.tool &&
+      !result.tool.product_url &&
+      parsed.data.product_url
+    ) {
+      result.tool.product_url = parsed.data.product_url;
+    }
 
     return NextResponse.json(result);
   } catch (error) {

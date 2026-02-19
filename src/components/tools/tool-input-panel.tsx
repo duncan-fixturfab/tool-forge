@@ -29,6 +29,7 @@ export function ToolInputPanel({ onToolExtracted }: ToolInputPanelProps) {
 
   // Text input state
   const [text, setText] = useState("");
+  const [textProductUrl, setTextProductUrl] = useState("");
 
   // PDF input state
   const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -76,7 +77,10 @@ export function ToolInputPanel({ onToolExtracted }: ToolInputPanelProps) {
       const response = await fetch("/api/tools/parse/text", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: text.trim() }),
+        body: JSON.stringify({
+          text: text.trim(),
+          ...(textProductUrl.trim() && { product_url: textProductUrl.trim() }),
+        }),
       });
 
       const data = await response.json();
@@ -244,6 +248,25 @@ export function ToolInputPanel({ onToolExtracted }: ToolInputPanelProps) {
           {/* Text Tab */}
           <TabsContent value="text">
             <form onSubmit={handleTextSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="text-product-url">
+                  Product URL{" "}
+                  <span className="text-muted-foreground font-normal">
+                    (optional)
+                  </span>
+                </Label>
+                <Input
+                  id="text-product-url"
+                  type="url"
+                  placeholder="https://www.harveytool.com/..."
+                  value={textProductUrl}
+                  onChange={(e) => setTextProductUrl(e.target.value)}
+                  disabled={loading}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Link to the product page for reordering or reference
+                </p>
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="text">Tool Specifications</Label>
                 <textarea
