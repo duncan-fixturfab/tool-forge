@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { getNextToolNumber } from "@/lib/tool-categories";
+import { ToolType } from "@/types/database";
 
 export const dynamic = "force-dynamic";
 
@@ -57,7 +59,7 @@ export async function POST(
     // Verify the tool exists and belongs to the user
     const { data: tool, error: toolError } = await supabase
       .from("tools")
-      .select("id, user_id")
+      .select("id, user_id, tool_type")
       .eq("id", tool_id)
       .single();
 
@@ -93,15 +95,19 @@ export async function POST(
     // Calculate the next tool number if not provided
     let assignedToolNumber = tool_number;
     if (!assignedToolNumber) {
-      const { data: maxToolNumber } = await supabase
+      // Fetch all existing tool numbers in this library
+      const { data: existingToolNumbers } = await supabase
         .from("library_tools")
         .select("tool_number")
-        .eq("library_id", libraryId)
-        .order("tool_number", { ascending: false })
-        .limit(1)
-        .single();
+        .eq("library_id", libraryId);
 
-      assignedToolNumber = (maxToolNumber?.tool_number || 0) + 1;
+      const usedNumbers = (existingToolNumbers ?? []).map(
+        (row: { tool_number: number }) => row.tool_number
+      );
+
+      // Assign the next available number within the tool's category range
+      assignedToolNumber =
+        getNextToolNumber(tool.tool_type as ToolType, usedNumbers) ?? 1;
     }
 
     // Add the tool to the library

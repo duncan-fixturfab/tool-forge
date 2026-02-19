@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Tool, Machine, Material, ToolHolder } from "@/types/database";
+import { Tool, Machine, Material, ToolHolder, ToolType } from "@/types/database";
+import { getNextToolNumber } from "@/lib/tool-categories";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -154,14 +155,21 @@ export function LibraryBuilder() {
 
       if (libraryError) throw libraryError;
 
-      // Add tools to library with holder assignments
-      const libraryTools = selectedToolIds.map((toolId, index) => ({
-        library_id: library.id,
-        tool_id: toolId,
-        tool_number: index + 1,
-        tool_holder_id: toolHolderAssignments[toolId] || null,
-        cutting_data: {}, // Will be calculated on export
-      }));
+      // Add tools to library with category-based tool numbers
+      const usedNumbers: number[] = [];
+      const libraryTools = selectedToolIds.map((toolId) => {
+        const tool = userTools.find((t) => t.id === toolId);
+        const toolType = (tool?.tool_type ?? "flat_endmill") as ToolType;
+        const toolNumber = getNextToolNumber(toolType, usedNumbers) ?? usedNumbers.length + 1;
+        usedNumbers.push(toolNumber);
+        return {
+          library_id: library.id,
+          tool_id: toolId,
+          tool_number: toolNumber,
+          tool_holder_id: toolHolderAssignments[toolId] || null,
+          cutting_data: {}, // Will be calculated on export
+        };
+      });
 
       const { error: toolsError } = await supabase
         .from("library_tools")
