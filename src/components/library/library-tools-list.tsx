@@ -4,11 +4,19 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Loader2 } from "lucide-react";
+import { Trash2, Loader2, List, Table2 } from "lucide-react";
 import { PostProcessForm } from "./post-process-form";
 import { HolderSelector } from "@/components/holders/holder-selector";
 import { AddToolButton } from "./add-tool-button";
 import { ToolType, PostProcessSettings, Tool } from "@/types/database";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const TOOL_TYPE_LABELS: Record<ToolType, string> = {
   flat_endmill: "Flat End Mill",
@@ -224,12 +232,88 @@ function LibraryToolRow({
   );
 }
 
+function LibraryToolTableRow({
+  libraryTool,
+  showShankDiameter,
+  onRemove,
+}: {
+  libraryTool: LibraryToolData;
+  showShankDiameter: boolean;
+  onRemove: () => void;
+}) {
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (deleting) return;
+    setDeleting(true);
+    try {
+      await fetch(`/api/library-tools/${libraryTool.id}`, {
+        method: "DELETE",
+      });
+      onRemove();
+    } catch (error) {
+      console.error("Failed to delete library tool:", error);
+      setDeleting(false);
+    }
+  };
+
+  const tool = libraryTool.tools;
+
+  return (
+    <TableRow>
+      <TableCell className="font-mono text-muted-foreground">
+        T{libraryTool.tool_number}
+      </TableCell>
+      <TableCell>
+        <Link href={`/tools/${tool.id}`} className="font-medium hover:underline">
+          {tool.name}
+        </Link>
+      </TableCell>
+      <TableCell>
+        <Badge variant="outline">{TOOL_TYPE_LABELS[tool.tool_type]}</Badge>
+      </TableCell>
+      <TableCell className="text-muted-foreground">
+        {tool.vendor || "—"}
+      </TableCell>
+      <TableCell className="text-right">
+        Ø{tool.geometry.diameter_mm}mm
+      </TableCell>
+      <TableCell className="text-right">
+        {tool.geometry.number_of_flutes}
+      </TableCell>
+      {showShankDiameter && (
+        <TableCell className="text-right">
+          {tool.geometry.shank_diameter_mm != null
+            ? `Ø${tool.geometry.shank_diameter_mm}mm`
+            : "—"}
+        </TableCell>
+      )}
+      <TableCell className="text-right">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-red-500 hover:text-red-600 hover:bg-red-50"
+          onClick={handleDelete}
+          disabled={deleting}
+        >
+          {deleting ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Trash2 className="h-4 w-4" />
+          )}
+        </Button>
+      </TableCell>
+    </TableRow>
+  );
+}
+
 export function LibraryToolsList({
   libraryId,
   libraryTools: initialLibraryTools,
   machineId,
 }: LibraryToolsListProps) {
   const [libraryTools, setLibraryTools] = useState(initialLibraryTools);
+  const [view, setView] = useState<"list" | "table">("list");
 
   // Sync local state when props change (e.g., after router.refresh())
   useEffect(() => {
@@ -249,16 +333,72 @@ export function LibraryToolsList({
     );
   }
 
+  // Check if any tool has a shank diameter to conditionally show that column
+  const hasShankDiameter = libraryTools.some(
+    (lt) => lt.tools.geometry.shank_diameter_mm != null
+  );
+
   return (
     <div className="space-y-3">
-      {libraryTools.map((libraryTool) => (
-        <LibraryToolRow
-          key={libraryTool.id}
-          libraryTool={libraryTool}
-          machineId={machineId}
-          onRemove={() => handleRemove(libraryTool.id)}
-        />
-      ))}
+      {/* View Toggle */}
+      <div className="flex justify-end gap-1">
+        <Button
+          variant={view === "list" ? "secondary" : "ghost"}
+          size="icon"
+          onClick={() => setView("list")}
+          aria-label="List view"
+        >
+          <List className="h-4 w-4" />
+        </Button>
+        <Button
+          variant={view === "table" ? "secondary" : "ghost"}
+          size="icon"
+          onClick={() => setView("table")}
+          aria-label="Table view"
+        >
+          <Table2 className="h-4 w-4" />
+        </Button>
+      </div>
+
+      {view === "list" ? (
+        <div className="space-y-3">
+          {libraryTools.map((libraryTool) => (
+            <LibraryToolRow
+              key={libraryTool.id}
+              libraryTool={libraryTool}
+              machineId={machineId}
+              onRemove={() => handleRemove(libraryTool.id)}
+            />
+          ))}
+        </div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-16">#</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Vendor</TableHead>
+              <TableHead className="text-right">Diameter</TableHead>
+              <TableHead className="text-right">Flutes</TableHead>
+              {hasShankDiameter && (
+                <TableHead className="text-right">Shank</TableHead>
+              )}
+              <TableHead className="w-12" />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {libraryTools.map((libraryTool) => (
+              <LibraryToolTableRow
+                key={libraryTool.id}
+                libraryTool={libraryTool}
+                showShankDiameter={hasShankDiameter}
+                onRemove={() => handleRemove(libraryTool.id)}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 }
